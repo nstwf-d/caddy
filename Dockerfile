@@ -1,6 +1,6 @@
 ARG CADDY_VERSION=2
 
-FROM caddy:${CADDY_VERSION}-builder-alpine AS builder
+FROM caddy:${CADDY_VERSION}-builder AS builder
 
 RUN xcaddy build \
     --with github.com/mholt/caddy-l4 \
