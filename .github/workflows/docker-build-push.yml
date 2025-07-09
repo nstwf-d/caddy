@@ -14,10 +14,12 @@ on:
       - main
 
 jobs:
-    permissions:
-      contents: read
+
   build-push:
     if: github.event_name != 'pull_request'
+
+    permissions:
+      contents: read
 
     strategy:
       matrix:
@@ -33,9 +35,7 @@ jobs:
         CADDY_VERSIJON=${{ matrix.version }}
       ghcr_image: ghcr.io/${{ github.repository }}
 
-    permissions:
-      contents: read
-      pull-requests: write
+
   build-push-pr:
     if: github.event_name == 'pull_request'
 
@@ -43,6 +43,10 @@ jobs:
       matrix:
         version:
           - '2'
+
+    permissions:
+      contents: read
+      pull-requests: write
 
     uses: nstwf-docker/docker-ci/.github/workflows/docker-build-push-pr.yaml@main
     secrets: inherit
