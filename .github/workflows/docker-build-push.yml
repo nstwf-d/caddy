@@ -1,7 +1,9 @@
 name: Build and Push Using Shared Workflow
 
+permissions:
+  contents: read
+
 on:
-  workflow_dispatch:
   schedule:
     - cron: '0 0 * * 0'
   push:
@@ -12,6 +14,8 @@ on:
       - main
 
 jobs:
+    permissions:
+      contents: read
   build-push:
     if: github.event_name != 'pull_request'
 
@@ -29,6 +33,9 @@ jobs:
         CADDY_VERSIJON=${{ matrix.version }}
       ghcr_image: ghcr.io/${{ github.repository }}
 
+    permissions:
+      contents: read
+      pull-requests: write
   build-push-pr:
     if: github.event_name == 'pull_request'
 
