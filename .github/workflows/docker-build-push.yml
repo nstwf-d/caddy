@@ -5,7 +5,7 @@ permissions:
 
 on:
   schedule:
-    - cron: '0 0 * * 0'
+    - cron: '0 0 4 * 0'
   push:
     branches:
       - main
@@ -33,25 +33,7 @@ jobs:
       dockerhub_image: nstwf/${{ github.event.repository.name }}
       docker_extra_build_args: |
         CADDY_VERSIJON=${{ matrix.version }}
+      platforms: |
+        linux/amd64
+        linux/arm64
       ghcr_image: ghcr.io/${{ github.repository }}
-
-
-  build-push-pr:
-    if: github.event_name == 'pull_request'
-
-    strategy:
-      matrix:
-        version:
-          - '2'
-
-    permissions:
-      contents: read
-      pull-requests: write
-
-    uses: nstwf-docker/docker-ci/.github/workflows/docker-build-push-pr.yaml@main
-    secrets: inherit
-    with:
-      image_version: ${{ matrix.version }}
-      dockerhub_image: nstwf/${{ github.event.repository.name }}
-      docker_extra_build_args: |
-        CADDY_VERSIJON=${{ matrix.version }}
